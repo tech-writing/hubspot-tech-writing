@@ -28,22 +28,21 @@
 
 ## About
 
-- Markdown to HTML converter with features relevant to generate HubSpot blog posts.
-- Supports writing technical documentation on HubSpot, using Markdown.
+- [Markdown] to HTML converter with features relevant to generate HubSpot blog posts.
+- Supports writing technical documentation on [HubSpot].
+- Upload blog posts to the HubSpot API, using the [hubspot-api-python] package.
 - See [Markdown Support for Technical Bloggers].
-
-
-## Details
-
-- Support technical writing on HubSpot using [Markdown].
-- Standards-based markup will be converted to HTML suitable for a HubSpot blog post.
-- The result will be uploaded to the HubSpot API, using the [hubspot-api-python] package.
 
 
 ## Setup
 
 ```shell
 pip install --upgrade 'git+https://github.com/crate-workbench/hubspot-tech-writing'
+```
+
+After installation, you can verify if it was successful.
+```shell
+hstw --version
 ```
 
 
@@ -67,7 +66,7 @@ hstw convert https://github.com/crate-workbench/hubspot-tech-writing/raw/main/te
 - https://github.com/danjamescrosby/markdown-to-hubspot-blog
 
 
+[HubSpot]: https://www.hubspot.com/
 [hubspot-api-python]: https://github.com/HubSpot/hubspot-api-python
-[Markedly Structured Text]: https://myst-parser.readthedocs.io/
 [Markdown]: https://daringfireball.net/projects/markdown/
 [Markdown Support for Technical Bloggers]: https://community.hubspot.com/t5/HubSpot-Ideas/Markdown-Support-for-Technical-Bloggers/idi-p/15724
