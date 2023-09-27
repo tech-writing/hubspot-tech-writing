@@ -6,6 +6,7 @@
 - Add example data files in different formats
 - CI: Add GHA workflow recipes
 - Add initial converter implementation
+- HTML: Add addons for custom code blocks, and header links
 
 
 ## 2023/09/xx 0.0.0
