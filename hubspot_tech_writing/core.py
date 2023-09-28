@@ -7,7 +7,7 @@ from tempfile import NamedTemporaryFile
 import markdown
 import mkdocs_linkcheck as lc
 
-from hubspot_tech_writing.hubspot import postprocess
+from hubspot_tech_writing.html import postprocess
 from hubspot_tech_writing.util.io import to_io
 
 logger = logging.getLogger(__name__)
