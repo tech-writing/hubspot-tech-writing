@@ -48,6 +48,7 @@ hstw --version
 
 ## Usage
 
+### Convert
 You can convert a Markdown file on your workstation, and write the output to an HTML file.
 ```shell
 wget -O original.md https://github.com/crate-workbench/hubspot-tech-writing/raw/main/tests/data/hubspot-blog-post-original.md
@@ -57,6 +58,19 @@ hstw convert original.md converted.html
 Alternatively, convert a Markdown file at a remote location, and write the output to STDOUT.
 ```shell
 hstw convert https://github.com/crate-workbench/hubspot-tech-writing/raw/main/tests/data/hubspot-blog-post-original.md
+```
+
+### Linkcheck
+
+In order to report about missing links to the web, or inline images, run the
+link checker on your Markdown documents.
+```shell
+hstw linkcheck original.md
+```
+
+Alternatively, you can also use a remote resource here.
+```shell
+hstw linkcheck https://github.com/crate-workbench/hubspot-tech-writing/raw/main/tests/data/hubspot-blog-post-original.md
 ```
 
 

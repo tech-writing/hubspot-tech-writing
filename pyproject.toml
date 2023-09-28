@@ -67,6 +67,7 @@ dependencies = [
   "click-aliases<2",
   "colorlog<7",
   "markdown<4",
+  "mkdocs-linkcheck<2",
   "requests<3",
 ]
 

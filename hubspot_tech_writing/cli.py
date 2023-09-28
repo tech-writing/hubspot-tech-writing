@@ -5,7 +5,7 @@ import typing as t
 import click
 from click_aliases import ClickAliasedGroup
 
-from hubspot_tech_writing.core import convert
+from hubspot_tech_writing.core import convert, linkcheck
 from hubspot_tech_writing.util.cli import boot_click, make_command
 
 logger = logging.getLogger(__name__)
@@ -27,6 +27,22 @@ def help_convert():
     """  # noqa: E501
 
 
+def help_linkcheck():
+    """
+    Check a Markdown file for broken links.
+
+    Synopsis
+    ========
+
+    # Check Markdown file on workstation.
+    hstw linkcheck document.md
+
+    # Check Markdown file at remote location.
+    hstw linkcheck https://github.com/crate-workbench/hubspot-tech-writing/raw/main/tests/data/hubspot-blog-post-original.md
+
+    """  # noqa: E501
+
+
 @click.group(cls=ClickAliasedGroup)
 @click.version_option(package_name="hubspot-tech-writing")
 @click.option("--verbose", is_flag=True, required=False, help="Turn on logging")
@@ -39,9 +55,7 @@ def cli(ctx: click.Context, verbose: bool, debug: bool):
 @make_command(cli, "convert", help_convert)
 @click.argument("source")
 @click.argument("target", required=False)
-@click.pass_context
-def convert_cli(ctx: click.Context, source: str, target: t.Optional[str] = None):
-    logger.info(f"Converting from Markdown: {source}")
+def convert_cli(source: str, target: t.Optional[str] = None):
     html = convert(source)
     fp: t.IO
     if target:
@@ -51,3 +65,11 @@ def convert_cli(ctx: click.Context, source: str, target: t.Optional[str] = None)
         logger.info("Writing output to HTML: STDOUT")
         fp = sys.stdout
     print(html, file=fp)
+
+
+@make_command(cli, "linkcheck", help_linkcheck)
+@click.argument("source")
+def linkcheck_cli(source: str):
+    if not linkcheck(source):
+        logger.error("Bad links were found. Exiting with an error.")
+        raise SystemExit(22)

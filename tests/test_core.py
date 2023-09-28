@@ -1,13 +1,4 @@
-from pathlib import Path
-
-import pytest
-
 from hubspot_tech_writing.core import convert
-
-
-@pytest.fixture
-def markdownfile() -> Path:
-    return Path(__file__).parent / "data" / "hubspot-blog-post-original.md"
 
 
 def check_content(html: str):
