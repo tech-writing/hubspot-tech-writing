@@ -66,6 +66,7 @@ dependencies = [
   "click<9",
   "click-aliases<2",
   "colorlog<7",
+  "hubspot-api-client<9",
   "markdown<4",
   "mkdocs-linkcheck<2",
   "requests<3",
@@ -88,6 +89,7 @@ test = [
   "psutil<6",
   "pytest<8",
   "pytest-cov<5",
+  "pytest-mock<4",
 ]
 [project.scripts]
 hstw = "hubspot_tech_writing.cli:cli"

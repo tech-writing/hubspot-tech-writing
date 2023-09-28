@@ -74,6 +74,21 @@ hstw linkcheck https://github.com/crate-workbench/hubspot-tech-writing/raw/main/
 ```
 
 
+### HubSpot Upload
+
+Uploading to HubSpot is an iterative process, mostly. So, we recommend to define a
+corresponding environment variable for storing your access token.
+```shell
+export HUBSPOT_ACCESS_TOKEN=pat-na1-e8805e92-b7fd-5c9b-adc8-2299569f56c2
+hstw upload testdrive.html
+```
+
+For more detailed information about this feature, please refer to the inline help:
+```shell
+hstw upload --help
+```
+
+
 ## Prior Art
 
 - https://github.com/verypossible/hubmd

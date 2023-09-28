@@ -1,3 +1,4 @@
+import pytest
 from click.testing import CliRunner
 
 from hubspot_tech_writing.cli import cli
@@ -54,3 +55,15 @@ def test_linkcheck_broken(caplog, markdownfile_minimal_broken_links):
     assert "Broken image: images/bar.png" in caplog.text
     assert "[✖] images/bar.png" in result.output
     assert "[✖] https://foo.example.org/" in result.output
+
+
+def test_upload_no_access_token(caplog, markdownfile):
+    runner = CliRunner()
+
+    with pytest.raises(ValueError) as ex:
+        runner.invoke(
+            cli,
+            args=f"--debug upload '{markdownfile}'",
+            catch_exceptions=False,
+        )
+    assert ex.match("Communicating with the HubSpot API needs an access token")

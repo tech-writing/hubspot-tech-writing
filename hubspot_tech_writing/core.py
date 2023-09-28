@@ -6,8 +6,10 @@ from tempfile import NamedTemporaryFile
 
 import markdown
 import mkdocs_linkcheck as lc
+from hubspot.cms.blogs.blog_posts import BlogPost
 
 from hubspot_tech_writing.html import postprocess
+from hubspot_tech_writing.hubspot_api import BlogArticle, HubSpotAdapter
 from hubspot_tech_writing.util.io import to_io
 
 logger = logging.getLogger(__name__)
@@ -59,3 +61,27 @@ def linkcheck(source: str):
         outcome2 = not lc.check_links(path=Path(tmpfile.name), ext=".html", use_async=False)
 
     return outcome1 and outcome2
+
+
+def upload(source: t.Union[str, Path], name: str, content_group_id: str, access_token: str):
+    source = Path(source)
+
+    if not name:
+        name = source.stem
+
+    if source.suffix.endswith(".md"):
+        html = convert(source)
+    else:
+        html = Path(source).read_text()
+
+    logger.info(f"Uploading file: {source}")
+
+    hsa = HubSpotAdapter(access_token=access_token)
+
+    article = BlogArticle(hubspot_adapter=hsa, name=name, content_group_id=content_group_id)
+    post: BlogPost = article.post
+    post.post_body = html
+    article.save()
+
+    # Only in emergency situations.
+    # article.delete()  # noqa: ERA001
