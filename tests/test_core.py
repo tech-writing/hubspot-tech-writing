@@ -1,4 +1,6 @@
-from hubspot_tech_writing.core import convert
+import pytest
+
+from hubspot_tech_writing.core import convert, upload
 
 
 def check_content(html: str):
@@ -39,3 +41,10 @@ def test_convert_addon_headerlink(markdownfile):
     )
     # Verify CSS.
     assert "a.headerlink {" in html
+
+
+def test_upload_unknown_file_type(tmp_path):
+    tmp_file = tmp_path / "foo.txt"
+    with pytest.raises(ValueError) as ex:
+        upload(access_token="unknown", source=tmp_file, name="foo", folder_path="/path/to/foo")  # noqa: S106
+    assert ex.match("Unknown file type: .txt")
