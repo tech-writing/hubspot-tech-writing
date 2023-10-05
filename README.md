@@ -28,10 +28,11 @@
 
 ## About
 
-- [Markdown] to HTML converter with features relevant to generate HubSpot blog posts.
-- Supports writing technical documentation on [HubSpot].
-- Upload blog posts to the HubSpot API, using the [hubspot-api-python] package.
-- See [Markdown Support for Technical Bloggers].
+- Support writing technical documentation on [HubSpot].
+- [Markdown] to HTML converter with a few bells and whistles relevant for creating
+  HubSpot blog posts.
+- Upload blog posts and files to the HubSpot API, using the [hubspot-api-python] package.
+- See community request about »[Markdown Support for Technical Bloggers]«.
 
 
 ## Setup
@@ -48,7 +49,7 @@ hstw --version
 
 ## Usage
 
-### Convert
+### Markup Conversion
 You can convert a Markdown file on your workstation, and write the output to an HTML file.
 ```shell
 wget -O original.md https://github.com/crate-workbench/hubspot-tech-writing/raw/main/tests/data/hubspot-blog-post-original.md
@@ -60,7 +61,7 @@ Alternatively, convert a Markdown file at a remote location, and write the outpu
 hstw convert https://github.com/crate-workbench/hubspot-tech-writing/raw/main/tests/data/hubspot-blog-post-original.md
 ```
 
-### Linkcheck
+### Link Checker
 
 In order to report about missing links to the web, or inline images, run the
 link checker on your Markdown documents.
@@ -73,20 +74,70 @@ Alternatively, you can also use a remote resource here.
 hstw linkcheck https://github.com/crate-workbench/hubspot-tech-writing/raw/main/tests/data/hubspot-blog-post-original.md
 ```
 
-
 ### HubSpot Upload
 
-Uploading to HubSpot is an iterative process, mostly. So, we recommend to define a
-corresponding environment variable for storing your access token.
+Uploading to HubSpot is mostly an iterative process, so will likely need to use the
+program multiple times. In order ease invocation, we recommend to define an
+environment variable for storing your access token.
 ```shell
 export HUBSPOT_ACCESS_TOKEN=pat-na1-e8805e92-b7fd-5c9b-adc8-2299569f56c2
+```
+
+```shell
+# Upload HTML file from workstation.
+# The name of the blog post will be derived from the file name.
 hstw upload testdrive.html
+```
+```shell
+# Upload PNG image from workstation to folder path on hubfs.
+hstw upload testdrive.png --folder-path=/foo/bar
 ```
 
 For more detailed information about this feature, please refer to the inline help:
 ```shell
 hstw upload --help
 ```
+
+### HubSpot Delete
+
+You can delete blog post and file entities, by their unique resource identifiers,
+or by name resp. path.
+
+```shell
+# Delete blog post by resource identifier.
+hstw delete post --id=138458225506
+```
+
+```shell
+# Delete file by path.
+hstw delete file --path=/testdrive/foo.png
+```
+
+For more detailed information about this feature, please refer to the inline help:
+```shell
+hstw delete --help
+```
+
+
+## Troubleshooting
+
+### Blog posts may not contain embedded images
+
+If you are uploading directly from GitHub, and run such a command,
+```
+hstw upload https://github.com/acme/foo-repo/raw/main/article.md --name=testdrive
+```
+only to receive an error message like this,
+```json
+{
+  "correlationId": "4836e94d-e42b-47a1-afff-597d8b67ba93",
+  "errorType": "BLOG_POST_CONTAINS_EMBEDDED_IMAGES",
+  "message": "Blog posts may not contain embedded images. Please upload images to File Manager.",
+  "status": "error"
+}
+```
+you are most certainly using a "private" repository, where `hstw` does not have
+access permissions to.
 
 
 ## Prior Art
