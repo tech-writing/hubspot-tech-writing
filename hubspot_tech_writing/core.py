@@ -1,3 +1,4 @@
+import functools
 import logging
 import typing as t
 import warnings
@@ -12,6 +13,7 @@ from hubspot.cms.blogs.blog_posts import BlogPost
 from hubspot_tech_writing.html import postprocess
 from hubspot_tech_writing.hubspot_api import HubSpotAdapter, HubSpotBlogPost, HubSpotFile
 from hubspot_tech_writing.util.common import ContentTypeResolver
+from hubspot_tech_writing.util.html import HTMLImageTranslator
 from hubspot_tech_writing.util.io import to_io
 
 logger = logging.getLogger(__name__)
@@ -80,8 +82,9 @@ def upload(
     logger.info(f"Uploading file: {source}")
     hsa = HubSpotAdapter(access_token=access_token)
 
-    # Convert markup to HTML.
+    # Upload text files as blog posts.
     if ctr.is_text():
+        # Convert markup to HTML.
         if ctr.is_markup():
             html = convert(source)
         elif ctr.is_html():
@@ -89,22 +92,36 @@ def upload(
         else:
             raise ValueError(f"Unknown file type: {ctr.suffix}")
 
+        # Collect and converge images.
+        if not folder_id and not folder_path:
+            logger.warning("Images will not be uploaded, please supply folder id or folder name")
+        else:
+            uploader = functools.partial(
+                upload, access_token=access_token, folder_id=folder_id, folder_path=folder_path
+            )
+            hit = HTMLImageTranslator(html=html, source_path=source_path, uploader=uploader)
+            hit.discover().process()
+            html = hit.html_out
+
+        # Upload blog post.
         name = name or source_path.stem
         article = HubSpotBlogPost(hubspot_adapter=hsa, name=name, content_group_id=content_group_id)
         post: BlogPost = article.post
         post.post_body = html
-        article.save()
+        return article.save()
 
         # Only in emergency situations.
         # article.delete()  # noqa: ERA001
 
-    elif ctr.is_file():
+    # Upload other files as File objects.
+    elif ctr.is_file():  # noqa: RET505
         name = name or source_path.name
         file = HubSpotFile(hubspot_adapter=hsa, source=source, name=name, folder_id=folder_id, folder_path=folder_path)
-        file.save()
+        return file.save()
+    return None
 
-        # Only in emergency situations.
-        # file.delete()  # noqa: ERA001
+    # Only in emergency situations.
+    # file.delete()  # noqa: ERA001
 
 
 def delete_blogpost(access_token: str, identifier: t.Optional[str] = None, name: t.Optional[str] = None):

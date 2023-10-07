@@ -63,6 +63,7 @@ dynamic = [
 ]
 
 dependencies = [
+  "beautifulsoup4<5",
   "click<9",
   "click-aliases<2",
   "colorlog<7",

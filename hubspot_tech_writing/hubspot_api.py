@@ -284,7 +284,10 @@ class HubSpotFile:
         self.load()
 
     def __str__(self):
-        return f"{self.__class__.__name__} identifier={self.identifier}, name={self.name}"
+        return (
+            f"{self.__class__.__name__} identifier={self.identifier}, "
+            f"name={self.name}, folder={self.folder_id or self.folder_path}"
+        )
 
     def load(self):
         """
