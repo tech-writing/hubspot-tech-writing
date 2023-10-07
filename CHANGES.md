@@ -3,6 +3,7 @@
 
 ## Unreleased
 
+## 2023-10-07 0.1.0
 - Add example data files in different formats
 - CI: Add GHA workflow recipes
 - Add initial converter implementation
@@ -12,5 +13,3 @@
 - Add HubSpot "File" wrapper, with refactoring
 - Add "delete" operations for both "BlogPost", and "File" entities
 - Upload images referenced in document in one go
-
-## 2023/09/xx 0.0.0
