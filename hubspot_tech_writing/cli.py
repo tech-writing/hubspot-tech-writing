@@ -176,13 +176,13 @@ def linkcheck_cli(source: str):
     "--folder-id",
     type=str,
     required=False,
-    help="The folder id for storing files. Needed when creating a file item. Alternatively, use folder name.",
+    help="The folder id for storing files. Alternatively, use folder name.",
 )
 @click.option(
     "--folder-path",
     type=str,
     required=False,
-    help="The folder path for storing files. Needed when creating a file item. Alternatively, use folder id.",
+    help="The folder path for storing files. Alternatively, use folder id.",
 )
 @access_token_option
 def upload_cli(access_token: str, source: str, name: str, content_group_id: str, folder_id: str, folder_path: str):

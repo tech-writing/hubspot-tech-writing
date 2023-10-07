@@ -10,6 +10,7 @@
   - Use HubSpot title from Markdown
   - Remove MyST specialities, e.g. `(full-text)=`
 - File bug: Uploading/updating blog post via identifier does not work
+- Don't upload files over and over again
 - Release 0.1.0
 
 ### Documentation
@@ -52,6 +53,10 @@
 - https://observablehq.com/@observablehq/database-client-specification
 - https://observablehq.com/@observablehq/introduction-to-ai-assist
 - https://observablehq.com/blog/improving-ai-assist
+
+### write freely
+- https://writefreely.org/
+- https://github.com/writefreely/writefreely
 
 
 ## Done

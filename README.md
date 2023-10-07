@@ -38,7 +38,7 @@
 ## Setup
 
 ```shell
-pip install --upgrade 'git+https://github.com/crate-workbench/hubspot-tech-writing'
+pip install --upgrade hubspot-tech-writing
 ```
 
 After installation, you can verify if it was successful.
@@ -76,21 +76,28 @@ hstw linkcheck https://github.com/crate-workbench/hubspot-tech-writing/raw/main/
 
 ### HubSpot Upload
 
-Uploading to HubSpot is mostly an iterative process, so will likely need to use the
-program multiple times. In order ease invocation, we recommend to define an
-environment variable for storing your access token.
+Uploading to HubSpot is mostly an iterative process, so you will most likely need to use the
+program multiple times on the same resource. In order ease invocation, we recommend to define
+an environment variable for storing your access token to the HubSpot API.
 ```shell
 export HUBSPOT_ACCESS_TOKEN=pat-na1-e8805e92-b7fd-5c9b-adc8-2299569f56c2
 ```
 
+Upload HTML file from workstation.
+The name of the blog post will be derived from the file name.
 ```shell
-# Upload HTML file from workstation.
-# The name of the blog post will be derived from the file name.
 hstw upload testdrive.html
 ```
+
+Upload PNG image from workstation to folder path on hubfs.
 ```shell
-# Upload PNG image from workstation to folder path on hubfs.
 hstw upload testdrive.png --folder-path=/foo/bar
+```
+
+Convert Markdown to HTML, upload the document under a different name, and also upload all
+referenced images.
+```shell
+hstw upload /path/to/document.md --name=a-different-name --folder-path=/blog/2023/topic
 ```
 
 For more detailed information about this feature, please refer to the inline help:
