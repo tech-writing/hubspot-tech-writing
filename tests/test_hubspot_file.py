@@ -5,16 +5,18 @@ import pytest
 
 from hubspot_tech_writing.core import delete_file, upload
 
-from .test_hubspot_blogpost import mkresponse
+from .util import mkresponse
 
 
 def response_simulator_upload(self, method, url, **kwargs):
     if method == "GET" and url == "https://api.hubapi.com/files/v3/files/search":
         response = mkresponse({"total": 0, "results": []})
     elif method == "POST" and url == "https://api.hubapi.com/files/v3/files":
-        response = mkresponse({"id": "12345"}, status=201, reason="Created")
+        response = mkresponse(
+            {"id": "12345", "url": "https://site.example/hubfs/any.png"}, status=201, reason="Created"
+        )
     elif method == "PUT" and url == "https://api.hubapi.com/files/v3/files/12345":
-        response = mkresponse({"id": "12345"})
+        response = mkresponse({"id": "12345", "url": "https://site.example/hubfs/any.png"})
     else:
         raise ValueError(f"No HTTP conversation mock for: method={method}, url={url}")
     return response

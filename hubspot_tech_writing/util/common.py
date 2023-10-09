@@ -4,7 +4,8 @@ import typing as t
 import colorlog
 from colorlog.escape_codes import escape_codes
 from pathlibfs import Path
-from yarl import URL
+
+from hubspot_tech_writing.util.io import path_without_scheme
 
 
 def setup_logging(level=logging.INFO, verbose: bool = False):
@@ -25,10 +26,7 @@ class ContentTypeResolver:
     TEXT_SUFFIXES = MARKUP_SUFFIXES + HTML_SUFFIXES + [".txt"]
 
     def __init__(self, filepath: t.Union[str, Path]):
-        self.url = URL(str(filepath))
-        if self.url.is_absolute():
-            self.url = self.url.with_scheme("")
-        self.path = Path(str(self.url))
+        self.path = path_without_scheme(filepath)
         self.suffix = self.path.suffix
 
     def is_markup(self):
@@ -42,8 +40,3 @@ class ContentTypeResolver:
 
     def is_file(self):
         return not self.is_text()
-
-
-def url_to_path(filepath: str):
-    url = URL(str(filepath)).with_scheme("")
-    return Path(str(url))

@@ -13,9 +13,8 @@ def test_convert_file(markdownfile):
     check_content(html)
 
 
-def test_convert_url():
-    url = "https://github.com/crate-workbench/hubspot-tech-writing/raw/main/tests/data/hubspot-blog-post-original.md"
-    html = convert(url)
+def test_convert_url(markdownurl_https_raw):
+    html = convert(markdownurl_https_raw)
     check_content(html)
 
 

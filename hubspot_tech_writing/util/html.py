@@ -88,9 +88,8 @@ class HTMLImageTranslator:
             return self
         for image_local in self.images_local:
             hs_file = self.uploader(source=image_local.src, name=image_local.src.name)
-            image_url = hs_file.url
             image_remote: HTMLImage = deepcopy(image_local)
-            image_remote.src = image_url
+            image_remote.src = hs_file.url
             self.images_remote.append(image_remote)
         return self
 

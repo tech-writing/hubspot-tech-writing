@@ -14,7 +14,7 @@ from hubspot_tech_writing.html import postprocess
 from hubspot_tech_writing.hubspot_api import HubSpotAdapter, HubSpotBlogPost, HubSpotFile
 from hubspot_tech_writing.util.common import ContentTypeResolver
 from hubspot_tech_writing.util.html import HTMLImageTranslator
-from hubspot_tech_writing.util.io import path_from_url, to_io
+from hubspot_tech_writing.util.io import open_url, to_io
 
 logger = logging.getLogger(__name__)
 
@@ -77,7 +77,7 @@ def upload(
 ):
     source_path: Path
     if isinstance(source, str):
-        source_path = path_from_url(source)
+        source_path = open_url(source)
     else:
         source_path = source
     logger.info(f"Source: {source_path}")
