@@ -4,14 +4,16 @@
 ## Iteration +1
 
 ### Functionality
-- Upload images and translate references
-- Check if there are console responses about created/deleted entities
+- Upload whole document from GitHub
 - Learning from https://cratedb.com/blog/full-text-search-exploring-the-netflix-catalog?hs_preview=dhgOjRFi-136979202693
   - Use HubSpot title from Markdown
   - Remove MyST specialities, e.g. `(full-text)=`
 - File bug: Uploading/updating blog post via identifier does not work
-- Don't upload files over and over again
-- Release 0.1.0
+- Don't upload files over and over again. Instead, use timestamp for determining
+  if files need to be uploaded.
+- Check if there are console responses about created/deleted entities
+- Use https://github.com/fsspec/universal_pathlib
+- Release 0.2.0
 
 ### Documentation
 - Document new operations
@@ -20,6 +22,12 @@
 - Improve README
   - Refer to "typical glitches"
   - Educate users about `--content-group-id=`
+
+### Improvements
+- When creating a blog post with images, they get uploaded first, and at the end,
+  the user sees an error message like `ValueError: Blog (content group) identifier
+  is required for creating a blog post`, if they forgot to add the `--content-group-id`
+  parameter.
 
 
 ## Iteration +2
@@ -64,3 +72,5 @@
 - Upload blog post
 - Upload files
 - Delete blog posts and files
+- Upload whole document from filesystem:
+  Scan for images in document, translate references, and upload
