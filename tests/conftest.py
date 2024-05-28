@@ -15,6 +15,30 @@ def markdownfile() -> Path:
     return Path(__file__).parent / "data" / "hubspot-blog-post-original.md"
 
 
+def get_markdownurl(infix: str = "", scheme: str = "https:") -> str:
+    return f"{scheme}//github.com/crate-workbench/hubspot-tech-writing/{infix}tests/data/hubspot-blog-post-original.md"
+
+
+@pytest.fixture
+def markdownurl_https_raw() -> str:
+    return get_markdownurl(infix="raw/main/")
+
+
+@pytest.fixture
+def markdownurl_github_https_bare() -> str:
+    return get_markdownurl(scheme="github+https:")
+
+
+@pytest.fixture
+def markdownurl_github_https_raw() -> str:
+    return get_markdownurl(infix="raw/main/", scheme="github+https:")
+
+
+@pytest.fixture
+def markdownurl_github_https_blob() -> str:
+    return get_markdownurl(infix="blob/main/", scheme="github+https:")
+
+
 @pytest.fixture
 def markdownfile_minimal_broken_links() -> Path:
     return Path(__file__).parent / "data" / "minimal-broken-links.md"
