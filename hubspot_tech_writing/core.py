@@ -14,7 +14,7 @@ from hubspot_tech_writing.html import postprocess
 from hubspot_tech_writing.hubspot_api import HubSpotAdapter, HubSpotBlogPost, HubSpotFile
 from hubspot_tech_writing.util.common import ContentTypeResolver
 from hubspot_tech_writing.util.html import HTMLImageTranslator
-from hubspot_tech_writing.util.io import to_io
+from hubspot_tech_writing.util.io import open_url, to_io
 
 logger = logging.getLogger(__name__)
 
@@ -75,9 +75,14 @@ def upload(
     folder_id: t.Optional[str] = None,
     folder_path: t.Optional[str] = None,
 ):
-    source_path = Path(source)
+    source_path: Path
+    if isinstance(source, str):
+        source_path = open_url(source)
+    else:
+        source_path = source
+    logger.info(f"Source: {source_path}")
 
-    ctr = ContentTypeResolver(name=source_path)
+    ctr = ContentTypeResolver(filepath=source_path)
 
     logger.info(f"Uploading file: {source}")
     hsa = HubSpotAdapter(access_token=access_token)
@@ -101,6 +106,7 @@ def upload(
             )
             hit = HTMLImageTranslator(html=html, source_path=source_path, uploader=uploader)
             hit.discover().process()
+            logger.debug(hit)
             html = hit.html_out
 
         # Upload blog post.
