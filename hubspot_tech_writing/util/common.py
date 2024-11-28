@@ -1,9 +1,11 @@
 import logging
 import typing as t
-from pathlib import Path
 
 import colorlog
 from colorlog.escape_codes import escape_codes
+from pathlibfs import Path
+
+from hubspot_tech_writing.util.io import path_without_scheme
 
 
 def setup_logging(level=logging.INFO, verbose: bool = False):
@@ -23,9 +25,9 @@ class ContentTypeResolver:
     HTML_SUFFIXES = [".html", ".html5", ".htm"]
     TEXT_SUFFIXES = MARKUP_SUFFIXES + HTML_SUFFIXES + [".txt"]
 
-    def __init__(self, name: t.Union[str, Path]):
-        self.name = name
-        self.suffix = Path(name).suffix
+    def __init__(self, filepath: t.Union[str, Path]):
+        self.path = path_without_scheme(filepath)
+        self.suffix = self.path.suffix
 
     def is_markup(self):
         return self.suffix in self.MARKUP_SUFFIXES
