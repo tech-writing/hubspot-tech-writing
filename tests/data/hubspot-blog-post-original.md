@@ -263,7 +263,7 @@ is configured correctly.
 If you are using [CrateDB Cloud], navigate to the [Cloud Console], and use the [Data Import] feature
 to import the CSV file directly from the given URL into the database table `machine_data`.
 ```
-https://github.com/crate/cratedb-datasets/raw/main/timeseries/anomaly/nab-machine-failure.csv
+https://cdn.crate.io/downloads/datasets/cratedb-datasets/timeseries/nab-machine-failure.csv
 ```
 
 ![CrateDB Cloud Import dialog](images/cratedb-cloud-import-url.png)
@@ -278,7 +278,7 @@ When visiting the [CrateDB Admin UI] after the import process has concluded, you
 If you want to exercise the data import on your workstation, use the `crash` command-line program.
 ```shell
 crash --command 'CREATE TABLE IF NOT EXISTS "machine_data" ("timestamp" TIMESTAMP, "value" REAL);'
-crash --command "COPY machine_data FROM 'https://github.com/crate/cratedb-datasets/raw/main/timeseries/anomaly/nab-machine-failure.csv';"
+crash --command "COPY machine_data FROM 'https://cdn.crate.io/downloads/datasets/cratedb-datasets/timeseries/nab-machine-failure.csv';"
 ```
 
 Note: If you are connecting to CrateDB Cloud, use the options
