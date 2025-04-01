@@ -67,7 +67,7 @@ dependencies = [
   "click<9",
   "click-aliases<2",
   "colorlog<7",
-  "hubspot-api-client<9",
+  "hubspot-api-client<12",
   "markdown<4",
   "mkdocs-linkcheck<2",
   "requests<3",
