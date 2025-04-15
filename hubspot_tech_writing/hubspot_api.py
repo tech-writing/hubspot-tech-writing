@@ -3,13 +3,14 @@ import logging
 import os
 import typing as t
 from copy import deepcopy
-from pathlib import Path
+from tempfile import NamedTemporaryFile
 
 import hubspot
 from click import confirm
 from hubspot import HubSpot
 from hubspot.cms.blogs.blog_posts import BlogPost
 from hubspot.files.files import File
+from pathlibfs import Path
 
 logger = logging.getLogger(__name__)
 
@@ -130,12 +131,14 @@ class HubSpotAdapter:
         logger.info(f"Found file: id={result.id}, path={result.path}, url={result.url}")
         return result
 
-    def save_file(self, file_id: str, source: str):
+    def save_file(self, file_id: str, source: Path):
         """
         Save / overwrite existing file.
         """
+        tmpfile = NamedTemporaryFile()
+        tmpfile.write(source.read_bytes())
         return self.hs.files.files.files_api.replace(
-            file_id=file_id, file=source, options=json.dumps(self.FILE_OPTIONS)
+            file_id=file_id, file=tmpfile.name, options=json.dumps(self.FILE_OPTIONS)
         )
 
     def delete_file_by_id(self, identifier: str) -> t.Optional[File]:
@@ -254,7 +257,7 @@ class HubSpotFile:
     def __init__(
         self,
         hubspot_adapter: HubSpotAdapter,
-        source: t.Union[str, Path],
+        source: Path,
         identifier: t.Optional[str] = None,
         name: t.Optional[str] = None,
         folder_id: t.Optional[str] = None,
@@ -286,7 +289,7 @@ class HubSpotFile:
     def __str__(self):
         return (
             f"{self.__class__.__name__} identifier={self.identifier}, "
-            f"name={self.name}, folder={self.folder_id or self.folder_path}"
+            f"name={self.name}, folder={self.folder_id or self.folder_path}, source={self.source}"
         )
 
     def load(self):
@@ -310,7 +313,7 @@ class HubSpotFile:
         if not self.source:
             raise ValueError(f"Unable to save file without source: {self}")
         logger.info(f"Saving file: {self}")
-        return self.hsa.save_file(file_id=self.identifier, source=str(self.source))
+        return self.hsa.save_file(file_id=self.identifier, source=self.source)
 
     def delete(self):
         """

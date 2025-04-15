@@ -2,6 +2,7 @@
 
 
 ## Unreleased
+- Use `pathlibfs` for scheme-agnostic source access
 
 ## 2023-10-07 0.1.0
 - Add example data files in different formats
