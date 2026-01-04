@@ -3,6 +3,7 @@
 
 ## Unreleased
 - Dependencies: Fixed missing `pkg_resources`
+- Python: Validated support for Python 3.8 to 3.14
 
 ## 2023-10-07 0.1.0
 - Add example data files in different formats
