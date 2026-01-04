@@ -71,6 +71,7 @@ dependencies = [
   "markdown<4",
   "mkdocs-linkcheck<2",
   "requests<3",
+  "setuptools<81",
 ]
 
 [project.optional-dependencies]
