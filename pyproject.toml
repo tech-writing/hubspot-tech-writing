@@ -11,25 +11,21 @@ requires = [
   "versioningit",
 ]
 
-[tool.versioningit.vcs]
-method = "git"
-default-tag = "0.0.0"
-
 [project]
 name = "hubspot-tech-writing"
 description = "Support technical writing on HubSpot using Markdown."
 readme = "README.md"
-requires-python = ">=3.8"
-license = {text = "Apache License 2.0"}
 keywords = [
   "html",
   "hubspot",
   "markdown",
   "tech-writing",
 ]
+license = { text = "Apache License 2.0" }
 authors = [
-  {name = "Andreas Motl", email = "andreas.motl@crate.io"},
+  { name = "Andreas Motl", email = "andreas.motl@crate.io" },
 ]
+requires-python = ">=3.8"
 classifiers = [
   "Development Status :: 4 - Beta",
   "Environment :: Console",
@@ -48,6 +44,7 @@ classifiers = [
   "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
   "Topic :: Communications",
   "Topic :: Education",
   "Topic :: Software Development :: Libraries",
@@ -74,8 +71,7 @@ dependencies = [
   "setuptools<81",
 ]
 
-[project.optional-dependencies]
-develop = [
+optional-dependencies.develop = [
   "black<26",
   "mypy<1.15",
   "poethepoet<1",
@@ -83,30 +79,68 @@ develop = [
   "ruff<0.9",
   "validate-pyproject<0.24",
 ]
-release = [
+optional-dependencies.release = [
   "build<2",
   "twine<7",
 ]
-test = [
+optional-dependencies.test = [
   "pytest<9",
   "pytest-cov<7",
   "pytest-mock<4",
 ]
-[project.scripts]
-hstw = "hubspot_tech_writing.cli:cli"
+urls.changelog = "https://github.com/crate-workbench/hubspot-tech-writing/blob/main/CHANGES.md"
+urls.documentation = "https://github.com/crate-workbench/hubspot-tech-writing"
+urls.homepage = "https://github.com/crate-workbench/hubspot-tech-writing"
+urls.repository = "https://github.com/crate-workbench/hubspot-tech-writing"
+scripts.hstw = "hubspot_tech_writing.cli:cli"
+
 [tool.setuptools]
 # https://setuptools.pypa.io/en/latest/userguide/package_discovery.html
-packages = ["hubspot_tech_writing"]
+packages = [ "hubspot_tech_writing" ]
 
-[project.urls]
-changelog = "https://github.com/crate-workbench/hubspot-tech-writing/blob/main/CHANGES.md"
-documentation = "https://github.com/crate-workbench/hubspot-tech-writing"
-homepage = "https://github.com/crate-workbench/hubspot-tech-writing"
-repository = "https://github.com/crate-workbench/hubspot-tech-writing"
 [tool.black]
 line-length = 120
 
 # extend-exclude = ""
+
+[tool.ruff]
+line-length = 120
+
+extend-exclude = [
+  "example_*",
+]
+
+lint.select = [
+  # Builtins
+  "A",
+  # Bugbear
+  "B",
+  # comprehensions
+  "C4",
+  # Pycodestyle
+  "E",
+  # eradicate
+  "ERA",
+  # Pyflakes
+  "F",
+  # isort
+  "I",
+  # pandas-vet
+  "PD",
+  # return
+  "RET",
+  # Bandit
+  "S",
+  # print
+  "T20",
+  "W",
+  # flake8-2020
+  "YTT",
+]
+
+lint.per-file-ignores."tests/*" = [
+  "S101",
+] # Use of `assert` detected
 
 [tool.isort]
 profile = "black"
@@ -121,16 +155,16 @@ addopts = """
   """
 log_level = "DEBUG"
 log_cli_level = "DEBUG"
-testpaths = ["tests"]
+testpaths = [ "tests" ]
 xfail_strict = true
 markers = [
 ]
 
 [tool.coverage.run]
 branch = false
-source = ["hubspot_tech_writing"]
+source = [ "hubspot_tech_writing" ]
 omit = [
-    "tests/*",
+  "tests/*",
 ]
 
 [tool.coverage.report]
@@ -138,7 +172,7 @@ fail_under = 0
 show_missing = true
 
 [tool.mypy]
-packages = ["hubspot_tech_writing"]
+packages = [ "hubspot_tech_writing" ]
 exclude = [
 ]
 check_untyped_defs = true
@@ -152,44 +186,9 @@ strict_equality = true
 warn_unused_ignores = true
 warn_redundant_casts = true
 
-[tool.ruff]
-line-length = 120
-
-lint.select = [
-  # Bandit
-  "S",
-  # Bugbear
-  "B",
-  # Builtins
-  "A",
-  # comprehensions
-  "C4",
-  # eradicate
-  "ERA",
-  # flake8-2020
-  "YTT",
-  # isort
-  "I",
-  # pandas-vet
-  "PD",
-  # print
-  "T20",
-  # Pycodestyle
-  "E",
-  "W",
-  # Pyflakes
-  "F",
-  # return
-  "RET",
-]
-
-extend-exclude = [
-  "example_*",
-]
-
-[tool.ruff.lint.per-file-ignores]
-"tests/*" = ["S101"]  # Use of `assert` detected
-
+[tool.versioningit.vcs]
+method = "git"
+default-tag = "0.0.0"
 
 # ===================
 # Tasks configuration
@@ -203,7 +202,6 @@ format = [
   { cmd = "ruff check --fix --ignore=ERA --ignore=F401 --ignore=F841 --ignore=T20 --ignore=ERA001 ." },
   { cmd = "pyproject-fmt --keep-full-version pyproject.toml" },
 ]
-
 lint = [
   { cmd = "ruff check ." },
   { cmd = "black --check ." },
@@ -217,8 +215,8 @@ test-fast = [
   { cmd = "pytest -m 'not slow'" },
 ]
 build = { cmd = "python -m build" }
-check = ["lint", "test"]
-check-fast = ["lint", "test-fast"]
+check = [ "lint", "test" ]
+check-fast = [ "lint", "test-fast" ]
 
 release = [
   { cmd = "python -m build" },
