@@ -52,7 +52,7 @@ class HTMLImageTranslator:
         images = soup.find_all(name="img")
         self.images_in = []
         for image in images:
-            self.images_in.append(HTMLImage(src=image.get("src"), alt=image.get("alt")))
+            self.images_in.append(HTMLImage(src=str(image.get("src", "")), alt=str(image.get("alt", ""))))
         return self
 
     def resolve(self) -> "HTMLImageTranslator":
