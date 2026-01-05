@@ -9,7 +9,7 @@ import hubspot
 from click import confirm
 from hubspot import HubSpot
 from hubspot.cms.blogs.blog_posts import BlogPost
-from hubspot.files.files import File
+from hubspot.files import File
 
 logger = logging.getLogger(__name__)
 
@@ -54,7 +54,7 @@ class HubSpotAdapter:
                 raise ValueError("Blog (content group) identifier is required for creating a blog post") from ex
             logger.info(f"Creating: {article}")
             post = BlogPost(name=article.name, slug=article.name, content_group_id=article.content_group_id)
-            return self.hs.cms.blogs.blog_posts.blog_post_api.create(post)
+            return self.hs.cms.blogs.blog_posts.basic_api.create(post)
 
     def get_blogpost_by_name(self, name: str) -> BlogPost:
         """
@@ -63,7 +63,7 @@ class HubSpotAdapter:
         response_types_map = {
             200: "CollectionResponseWithTotalBlogPostForwardPaging",
         }
-        response = self.hs.cms.blogs.blog_posts.blog_post_api.api_client.call_api(
+        response = self.hs.cms.blogs.blog_posts.basic_api.api_client.call_api(
             "/cms/v3/blogs/posts",
             "GET",
             auth_settings=["oauth2"],
@@ -93,14 +93,14 @@ class HubSpotAdapter:
             logger.info(f"Creating: {file}")
 
             if file.folder_id:
-                return self.hs.files.files.files_api.upload(
+                return self.hs.files.files_api.upload(
                     file=file.source,
                     file_name=file.name,
                     folder_id=file.folder_id,
                     options=json.dumps(self.FILE_OPTIONS),
                 )
             elif file.folder_path:  # noqa: RET505
-                return self.hs.files.files.files_api.upload(
+                return self.hs.files.files_api.upload(
                     file=file.source,
                     file_name=file.name,
                     folder_path=file.folder_path,
@@ -116,11 +116,11 @@ class HubSpotAdapter:
         if file.folder_id:
             file_stem = Path(file.name).stem
             logger.info(f"Searching for '{file_stem}' in folder id '{file.folder_id}'")
-            response = self.hs.files.files.files_api.do_search(name=file_stem, parent_folder_id=file.folder_id)
+            response = self.hs.files.files_api.do_search(name=file_stem, parent_folder_ids=[file.folder_id])
         elif file.folder_path:
             logger.info(f"Searching for '{file.name}' in folder path '{file.folder_path}'")
             path = Path(file.folder_path) / file.name
-            response = self.hs.files.files.files_api.do_search(path=str(path))
+            response = self.hs.files.files_api.do_search(path=str(path))
         else:
             raise ValueError("Folder is required when searching for files, please specify `folder_id` or `folder_path`")
 
@@ -134,15 +134,13 @@ class HubSpotAdapter:
         """
         Save / overwrite existing file.
         """
-        return self.hs.files.files.files_api.replace(
-            file_id=file_id, file=source, options=json.dumps(self.FILE_OPTIONS)
-        )
+        return self.hs.files.files_api.replace(file_id=file_id, file=source, options=json.dumps(self.FILE_OPTIONS))
 
     def delete_file_by_id(self, identifier: str) -> t.Optional[File]:
         """
         Delete file by file identifier.
         """
-        response = self.hs.files.files.files_api.do_search(id=identifier)
+        response = self.hs.files.files_api.do_search(ids=[identifier])
         if not response.results:
             logger.info(f"File not found: id={identifier}")
             return None
@@ -153,7 +151,7 @@ class HubSpotAdapter:
         """
         Delete files by path.
         """
-        response = self.hs.files.files.files_api.do_search(path=path)
+        response = self.hs.files.files_api.do_search(path=path)
         if not response.results:
             logger.info(f"Files not found: path={path}")
             return
@@ -161,21 +159,21 @@ class HubSpotAdapter:
         for result in response.results:
             try:
                 self.do_delete_file_by_id(result.id)
-            except hubspot.files.files.exceptions.NotFoundException:
+            except hubspot.files.exceptions.NotFoundException:
                 pass
 
     def do_delete_file_by_id(self, identifier: str) -> File:
         """
         Effectively delete file by file identifier, confirming the delete action.
         """
-        file = self.hs.files.files.files_api.get_by_id(identifier)
+        file = self.hs.files.files_api.get_by_id(identifier)
         logger.info(f"About to delete file: id='{file.id}'\n{file}")
         if os.environ.get("CONFIRM") == "yes":
             outcome = True
         else:
             outcome = confirm("Please confirm deletion (archival)")
         if outcome is True:
-            return self.hs.files.files.files_api.archive(file.id)
+            return self.hs.files.files_api.archive(file.id)
         return None
 
 
@@ -215,7 +213,7 @@ class HubSpotBlogPost:
         """
         logger.info(f"Loading blog post: {self}")
         if self.identifier:
-            self.post = self.hs.cms.blogs.blog_posts.blog_post_api.get_by_id(self.identifier)
+            self.post = self.hs.cms.blogs.blog_posts.basic_api.get_by_id(self.identifier)
             self.name = self.post.name
         elif self.name:
             self.post = self.hsa.get_or_create_blogpost(self, autocreate=self.autocreate)
@@ -229,7 +227,7 @@ class HubSpotBlogPost:
         post: BlogPost = deepcopy(self.post)
         post.created = None
         post.updated = None
-        return self.hs.cms.blogs.blog_posts.blog_post_api.update(self.identifier, post)
+        return self.hs.cms.blogs.blog_posts.basic_api.update(self.identifier, post)
 
     def delete(self):
         """
@@ -242,7 +240,7 @@ class HubSpotBlogPost:
         else:
             outcome = confirm("Please confirm deletion (archival)")
         if outcome is True:
-            return self.hs.cms.blogs.blog_posts.blog_post_api.archive(self.identifier)
+            return self.hs.cms.blogs.blog_posts.basic_api.archive(self.identifier)
         return None
 
 
@@ -295,7 +293,7 @@ class HubSpotFile:
         """
         logger.info(f"Loading file: {self}")
         if self.identifier:
-            self.file = self.hs.files.files.files_api.get_by_id(self.identifier)
+            self.file = self.hs.files.files_api.get_by_id(self.identifier)
             self.name = self.file.name
         elif self.name:
             self.file = self.hsa.get_or_create_file(self)
@@ -317,4 +315,4 @@ class HubSpotFile:
         Delete / archive file.
         """
         logger.info(f"Deleting file: {self}")
-        self.hs.files.files.files_api.archive(self.identifier)
+        self.hs.files.files_api.archive(self.identifier)
