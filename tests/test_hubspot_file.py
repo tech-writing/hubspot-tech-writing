@@ -36,7 +36,7 @@ def test_upload_file_folder_id_success(mocker, caplog, tmp_path):
     tmpfile = tmp_path / "foo.png"
     tmpfile.write_bytes(b"foo")
 
-    mocker.patch("hubspot.files.files.rest.RESTClientObject.request", response_simulator_upload)
+    mocker.patch("hubspot.files.rest.RESTClientObject.request", response_simulator_upload)
     upload(
         access_token="pat-na1-e8805e92-b7fd-5c9b-adc8-2299569f56c2",  # noqa: S106
         source=tmpfile,
@@ -53,7 +53,7 @@ def test_upload_file_folder_path_success(mocker, caplog, tmp_path):
     tmpfile = tmp_path / "foo.png"
     tmpfile.write_bytes(b"foo")
 
-    mocker.patch("hubspot.files.files.rest.RESTClientObject.request", response_simulator_upload)
+    mocker.patch("hubspot.files.rest.RESTClientObject.request", response_simulator_upload)
     upload(
         access_token="pat-na1-e8805e92-b7fd-5c9b-adc8-2299569f56c2",  # noqa: S106
         source=tmpfile,
@@ -92,14 +92,14 @@ def test_upload_file_fail_folder_id_and_path():
 
 def test_delete_by_identifier(hubspot_access_token, mocker, caplog):
     mocker.patch.dict(os.environ, {"CONFIRM": "yes"})
-    mocker.patch("hubspot.files.files.rest.RESTClientObject.request", response_simulator_delete)
+    mocker.patch("hubspot.files.rest.RESTClientObject.request", response_simulator_delete)
     delete_file(access_token=hubspot_access_token, identifier="12345")
     assert "Deleting file with id '12345'" in caplog.messages
 
 
 def test_delete_by_name(hubspot_access_token, mocker, caplog):
     mocker.patch.dict(os.environ, {"CONFIRM": "yes"})
-    mocker.patch("hubspot.files.files.rest.RESTClientObject.request", response_simulator_delete)
+    mocker.patch("hubspot.files.rest.RESTClientObject.request", response_simulator_delete)
     delete_file(access_token=hubspot_access_token, path="/path/to/testdrive")
     assert "Deleting files at path '/path/to/testdrive'" in caplog.messages
 
