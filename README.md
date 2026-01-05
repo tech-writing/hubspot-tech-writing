@@ -1,10 +1,10 @@
 # Technical Writing on HubSpot
 
-[![Tests](https://github.com/crate-workbench/hubspot-tech-writing/actions/workflows/main.yml/badge.svg)](https://github.com/crate-workbench/hubspot-tech-writing/actions/workflows/main.yml)
-[![Test coverage](https://img.shields.io/codecov/c/gh/crate-workbench/hubspot-tech-writing.svg)](https://codecov.io/gh/crate-workbench/hubspot-tech-writing/)
+[![Tests](https://github.com/tech-writing/hubspot-tech-writing/actions/workflows/main.yml/badge.svg)](https://github.com/tech-writing/hubspot-tech-writing/actions/workflows/main.yml)
+[![Test coverage](https://img.shields.io/codecov/c/gh/tech-writing/hubspot-tech-writing.svg)](https://codecov.io/gh/tech-writing/hubspot-tech-writing/)
 [![Python versions](https://img.shields.io/pypi/pyversions/hubspot-tech-writing.svg)](https://pypi.org/project/hubspot-tech-writing/)
 
-[![License](https://img.shields.io/github/license/crate-workbench/hubspot-tech-writing.svg)](https://github.com/crate-workbench/hubspot-tech-writing/blob/main/LICENSE)
+[![License](https://img.shields.io/github/license/tech-writing/hubspot-tech-writing.svg)](https://github.com/tech-writing/hubspot-tech-writing/blob/main/LICENSE)
 [![Status](https://img.shields.io/pypi/status/hubspot-tech-writing.svg)](https://pypi.org/project/hubspot-tech-writing/)
 [![PyPI](https://img.shields.io/pypi/v/hubspot-tech-writing.svg)](https://pypi.org/project/hubspot-tech-writing/)
 [![Downloads](https://pepy.tech/badge/hubspot-tech-writing/month)](https://pypi.org/project/hubspot-tech-writing/)
@@ -18,12 +18,12 @@
 | [Source code]
 | [License]
 
-[Changelog]: https://github.com/crate-workbench/hubspot-tech-writing/blob/main/CHANGES.md
+[Changelog]: https://github.com/tech-writing/hubspot-tech-writing/blob/main/CHANGES.md
 [Documentation]: https://hubspot-tech-writing.readthedocs.io/
-[Issues]: https://github.com/crate-workbench/hubspot-tech-writing/issues
-[License]: https://github.com/crate-workbench/hubspot-tech-writing/blob/main/LICENSE
+[Issues]: https://github.com/tech-writing/hubspot-tech-writing/issues
+[License]: https://github.com/tech-writing/hubspot-tech-writing/blob/main/LICENSE
 [PyPI]: https://pypi.org/project/hubspot-tech-writing/
-[Source code]: https://github.com/crate-workbench/hubspot-tech-writing
+[Source code]: https://github.com/tech-writing/hubspot-tech-writing
 
 
 ## About
@@ -52,13 +52,13 @@ hstw --version
 ### Markup Conversion
 You can convert a Markdown file on your workstation, and write the output to an HTML file.
 ```shell
-wget -O original.md https://github.com/crate-workbench/hubspot-tech-writing/raw/main/tests/data/hubspot-blog-post-original.md
+wget -O original.md https://github.com/tech-writing/hubspot-tech-writing/raw/main/tests/data/hubspot-blog-post-original.md
 hstw convert original.md converted.html
 ```
 
 Alternatively, convert a Markdown file at a remote location, and write the output to STDOUT.
 ```shell
-hstw convert https://github.com/crate-workbench/hubspot-tech-writing/raw/main/tests/data/hubspot-blog-post-original.md
+hstw convert https://github.com/tech-writing/hubspot-tech-writing/raw/main/tests/data/hubspot-blog-post-original.md
 ```
 
 ### Link Checker
@@ -71,7 +71,7 @@ hstw linkcheck original.md
 
 Alternatively, you can also use a remote resource here.
 ```shell
-hstw linkcheck https://github.com/crate-workbench/hubspot-tech-writing/raw/main/tests/data/hubspot-blog-post-original.md
+hstw linkcheck https://github.com/tech-writing/hubspot-tech-writing/raw/main/tests/data/hubspot-blog-post-original.md
 ```
 
 ### HubSpot Upload
