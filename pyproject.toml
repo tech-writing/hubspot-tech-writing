@@ -90,10 +90,10 @@ optional-dependencies.test = [
   "pytest-cov<7",
   "pytest-mock<4",
 ]
-urls.changelog = "https://github.com/crate-workbench/hubspot-tech-writing/blob/main/CHANGES.md"
-urls.documentation = "https://github.com/crate-workbench/hubspot-tech-writing"
-urls.homepage = "https://github.com/crate-workbench/hubspot-tech-writing"
-urls.repository = "https://github.com/crate-workbench/hubspot-tech-writing"
+urls.changelog = "https://github.com/tech-writing/hubspot-tech-writing/blob/main/CHANGES.md"
+urls.documentation = "https://github.com/tech-writing/hubspot-tech-writing"
+urls.homepage = "https://github.com/tech-writing/hubspot-tech-writing"
+urls.repository = "https://github.com/tech-writing/hubspot-tech-writing"
 scripts.hstw = "hubspot_tech_writing.cli:cli"
 
 [tool.setuptools]

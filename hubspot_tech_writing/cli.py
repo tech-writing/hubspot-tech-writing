@@ -22,7 +22,7 @@ def help_convert():
     hstw convert original.md converted.html
 
     # Convert remote Markdown resource.
-    hstw convert https://github.com/crate-workbench/hubspot-tech-writing/raw/main/tests/data/hubspot-blog-post-original.md
+    hstw convert https://github.com/tech-writing/hubspot-tech-writing/raw/main/tests/data/hubspot-blog-post-original.md
 
     """  # noqa: E501
 
@@ -38,7 +38,7 @@ def help_linkcheck():
     hstw linkcheck document.md
 
     # Check Markdown file at remote location.
-    hstw linkcheck https://github.com/crate-workbench/hubspot-tech-writing/raw/main/tests/data/hubspot-blog-post-original.md
+    hstw linkcheck https://github.com/tech-writing/hubspot-tech-writing/raw/main/tests/data/hubspot-blog-post-original.md
 
     """  # noqa: E501
 
@@ -76,7 +76,7 @@ def help_upload():
 
     # You can also address a Markdown file at a remote location, convert it to HTML,
     # and upload to HubSpot in one go.
-    hstw upload https://github.com/crate-workbench/hubspot-tech-writing/raw/main/tests/data/hubspot-blog-post-original.md --name=testdrive
+    hstw upload https://github.com/tech-writing/hubspot-tech-writing/raw/main/tests/data/hubspot-blog-post-original.md --name=testdrive
 
     """  # noqa: E501
 
