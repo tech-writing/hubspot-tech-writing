@@ -2,6 +2,8 @@
 
 
 ## Unreleased
+
+## 2026-01-06 0.1.2
 - Dependencies: Updated to `hubspot-api-client` v12
 
 ## 2026-01-04 0.1.1
