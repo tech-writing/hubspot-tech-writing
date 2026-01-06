@@ -2,8 +2,9 @@
 
 
 ## Unreleased
+- Dependencies: Updated to `hubspot-api-client` v12
 
-## 2025-12-04 0.1.1
+## 2026-01-04 0.1.1
 - Dependencies: Fixed missing `pkg_resources`
 - Python: Validated support for Python 3.8 to 3.14
 
