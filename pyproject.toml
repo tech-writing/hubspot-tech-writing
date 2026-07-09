@@ -1,9 +1,7 @@
 # ==================
 # Project definition
 # ==================
-
 # Derived from https://peps.python.org/pep-0621/
-
 [build-system]
 build-backend = "setuptools.build_meta"
 requires = [
@@ -56,11 +54,9 @@ classifiers = [
   "Topic :: Text Processing :: Markup :: Markdown",
   "Topic :: Utilities",
 ]
-
 dynamic = [
   "version",
 ]
-
 dependencies = [
   "beautifulsoup4<5",
   "click<9",
@@ -72,7 +68,6 @@ dependencies = [
   "mkdocs-linkcheck<2",
   "requests<3",
 ]
-
 optional-dependencies.develop = [
   "black<27",
   "mypy<2.3",
@@ -102,16 +97,13 @@ packages = [ "hubspot_tech_writing" ]
 
 [tool.black]
 line-length = 120
-
 # extend-exclude = ""
 
 [tool.ruff]
 line-length = 120
-
 extend-exclude = [
   "example_*",
 ]
-
 lint.select = [
   # Builtins
   "A",
@@ -139,88 +131,81 @@ lint.select = [
   # flake8-2020
   "YTT",
 ]
-
 lint.per-file-ignores."tests/*" = [
   "S101",
-] # Use of `assert` detected
+]  # Use of `assert` detected
 
 [tool.isort]
 profile = "black"
 skip_glob = "**/site-packages/**"
 skip_gitignore = false
 
-[tool.pytest.ini_options]
-minversion = "2.0"
-addopts = """
-  -rfEX -p pytester --strict-markers --verbosity=3
-  --cov --cov-report=term-missing --cov-report=xml
-  """
-log_level = "DEBUG"
-log_cli_level = "DEBUG"
-testpaths = [ "tests" ]
-xfail_strict = true
-markers = [
-]
-
-[tool.coverage.run]
-branch = false
-source = [ "hubspot_tech_writing" ]
-omit = [
-  "tests/*",
-]
-
-[tool.coverage.report]
-fail_under = 0
-show_missing = true
-
 [tool.mypy]
 packages = [ "hubspot_tech_writing" ]
-exclude = [
-]
-check_untyped_defs = true
+exclude = []
 ignore_missing_imports = true
+check_untyped_defs = true
 implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+strict_equality = true
 install_types = true
 no_implicit_optional = true
 non_interactive = true
 show_error_codes = true
-strict_equality = true
-warn_unused_ignores = true
-warn_redundant_casts = true
 
-[tool.versioningit.vcs]
-method = "git"
-default-tag = "0.0.0"
+[tool.pytest]
+ini_options.minversion = "2.0"
+ini_options.testpaths = [ "tests" ]
+ini_options.addopts = """
+  -rfEX -p pytester --strict-markers --verbosity=3
+  --cov --cov-report=term-missing --cov-report=xml
+  """
+ini_options.markers = []
+ini_options.xfail_strict = true
+ini_options.log_level = "DEBUG"
+ini_options.log_cli_level = "DEBUG"
 
+[tool.coverage]
+run.branch = false
+run.omit = [
+  "tests/*",
+]
+run.source = [ "hubspot_tech_writing" ]
+report.fail_under = 0
+report.show_missing = true
+
+[tool.poe]
 # ===================
 # Tasks configuration
 # ===================
-
-[tool.poe.tasks]
-format = [
+tasks.format = [
   { cmd = "black ." },
   # Configure Ruff not to auto-fix (remove!):
   # Ignore unused imports (F401), unused variables (F841), `print` statements (T201), and commented-out code (ERA001).
   { cmd = "ruff check --fix --ignore=ERA --ignore=F401 --ignore=F841 --ignore=T20 --ignore=ERA001 ." },
   { cmd = "pyproject-fmt --keep-full-version pyproject.toml" },
 ]
-lint = [
+tasks.lint = [
   { cmd = "ruff check ." },
   { cmd = "black --check ." },
   { cmd = "validate-pyproject pyproject.toml" },
   { cmd = "mypy" },
 ]
-test = [
+tasks.test = [
   { cmd = "pytest" },
 ]
-test-fast = [
+tasks.test-fast = [
   { cmd = "pytest -m 'not slow'" },
 ]
-build = { cmd = "python -m build" }
-check = [ "lint", "test" ]
-check-fast = [ "lint", "test-fast" ]
-
-release = [
+tasks.build = { cmd = "python -m build" }
+tasks.check = [ "lint", "test" ]
+tasks.check-fast = [ "lint", "test-fast" ]
+tasks.release = [
   { cmd = "python -m build" },
   { cmd = "twine upload --skip-existing dist/*.tar.gz dist/*.whl" },
 ]
+
+[tool.versioningit]
+vcs.method = "git"
+vcs.default-tag = "0.0.0"
