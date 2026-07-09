@@ -64,7 +64,8 @@ dynamic = [
 dependencies = [
   "beautifulsoup4<5",
   "click<9",
-  "click-aliases<2",
+  "click-aliases<=1.0.5; python_version<'3.10'",
+  "click-aliases>=1.0.6,<2; python_version>='3.10'",
   "colorlog<7",
   "hubspot-api-client>=12,<13",
   "markdown<4",
