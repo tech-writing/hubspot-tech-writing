@@ -2,15 +2,16 @@
 
 
 ## Unreleased
+- Dependencies: Adjusted dependency specification for `click-aliases`
 
-## 2026-01-06 0.1.2
+## 2026-01-06 v0.1.2
 - Dependencies: Updated to `hubspot-api-client` v12
 
-## 2026-01-04 0.1.1
+## 2026-01-04 v0.1.1
 - Dependencies: Fixed missing `pkg_resources`
 - Python: Validated support for Python 3.8 to 3.14
 
-## 2023-10-07 0.1.0
+## 2023-10-07 v0.1.0
 - Add example data files in different formats
 - CI: Add GHA workflow recipes
 - Add initial converter implementation
