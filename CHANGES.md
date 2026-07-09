@@ -2,6 +2,8 @@
 
 
 ## Unreleased
+
+## 2026-07-09 v0.1.3
 - Dependencies: Adjusted dependency specification for `click-aliases`
 
 ## 2026-01-06 v0.1.2
