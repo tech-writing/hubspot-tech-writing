@@ -143,11 +143,11 @@ def convert_cli(source: str, target: t.Optional[str] = None):
     fp: t.IO
     if target:
         logger.info(f"Writing output to HTML: {target}")
-        fp = open(target, "w")
+        with open(target, "w") as fp:
+            print(html, file=fp)  # noqa: T201
     else:
         logger.info("Writing output to HTML: STDOUT")
-        fp = sys.stdout
-    print(html, file=fp)
+        print(html, file=sys.stdout)  # noqa: T201
 
 
 @make_command(cli, "linkcheck", help_linkcheck)
