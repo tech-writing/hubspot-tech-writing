@@ -3,7 +3,7 @@
 
 ## Unreleased
 
-## 2026-07-17 v0.1.4
+## 2026-08-17 v0.1.4
 - Dependencies: Adjusted dependency specification for `click-aliases`
 - Explicitly close files to prevent resource leak. Thanks, @Stephen0512.
 
