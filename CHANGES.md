@@ -3,6 +3,7 @@
 
 ## Unreleased
 - Dependencies: Adjusted dependency specification for `click-aliases`
+- Explicitly close files to prevent resource leak. Thanks, @Stephen0512.
 
 ## 2026-07-09 v0.1.3
 - Dependencies: Adjusted dependency specification for `click-aliases`
